@@ -1,4 +1,4 @@
-
+gunicorn
 pandas
 numpy
 scikit-learn
@@ -8,4 +8,4 @@ seaborn
 ipython
 statsmodels
 Flask
-gunicorn
+
