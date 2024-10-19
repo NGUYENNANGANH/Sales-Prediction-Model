@@ -9,7 +9,7 @@ app = Flask(__name__)
 linear_model = joblib.load('savefile/linear_regression_model.pkl')
 ridge_model = joblib.load('savefile/ridge_regression_model.pkl')
 mlp_model = joblib.load('savefile/mlp_regression_model1.pkl')
-stacking_model = joblib.load('savefile/stacking_regressor_model.pkl')
+stacking_model = joblib.load('savefile/stacking_model.pkl')
 
 # Load scaler for X only
 scaler_X = joblib.load('savefile/scaler_X.pkl')
