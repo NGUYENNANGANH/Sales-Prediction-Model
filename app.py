@@ -8,12 +8,11 @@ app = Flask(__name__)
 # Load pre-trained models
 linear_model = joblib.load('savefile/linear_regression_model.pkl')
 ridge_model = joblib.load('savefile/ridge_regression_model.pkl')
-mlp_model = joblib.load('savefile/mlp_regression_model.pkl')
-stacking_model = joblib.load('savefile/meta_model.pkl')
+mlp_model = joblib.load('savefile/mlp_regression_model1.pkl')
+stacking_model = joblib.load('savefile/stacking_regressor_model.pkl')
 
-# Load scalers
+# Load scaler for X only
 scaler_X = joblib.load('savefile/scaler_X.pkl')
-scaler_Y = joblib.load('savefile/scaler_Y.pkl')
 
 @app.route('/')
 def home():
@@ -46,15 +45,15 @@ def predict():
         prediction = mlp_model.predict(input_data_std)
     elif model_type == 'stacking':
         # Remove feature names for stacking model
-        input_data_std_np = input_data_std.to_numpy()
-        prediction = stacking_model.predict(input_data_std_np)
+        # input_data_std_np = input_data_std.to_numpy()
+        prediction = stacking_model.predict(input_data_std)
     else:
         return jsonify({'error': 'Invalid model type'}), 400
 
-    # Convert the prediction back to the original scale
-    prediction_original = scaler_Y.inverse_transform(prediction.reshape(-1, 1)).flatten()
+    # Dự đoán không cần chuyển đổi lại thang đo vì không chuẩn hóa Y
+    prediction_original = prediction[0]  # Dự đoán đã ở thang đo gốc
 
-    return jsonify({'prediction': prediction_original[0]})
+    return jsonify({'prediction': prediction_original})
 
 if __name__ == '__main__':
     app.run(debug=True)
