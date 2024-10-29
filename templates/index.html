@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -85,6 +85,124 @@
         <label for="feature2">Radio Ad Budget ($):</label>
         <input type="text" id="feature2" name="feature2" required />
         <label for="feature3">Newspaper Ad Budget ($):</label>
+        <input type="text" id="feature3" name="feature3" required />
+        <input type="submit" value="Predict" />
+      </form>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      document.querySelector("form").onsubmit = async function (event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const response = await fetch("/predict", {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        if (response.ok) {
+          document.getElementById(
+            "result"
+          ).innerText = `Prediction: ${result.prediction}`;
+        } else {
+          document.getElementById(
+            "result"
+          ).innerText = `Error: ${result.error}`;
+        }
+      };
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Prediction</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        max-width: 500px; /* Set maximum width for the container */
+        margin: 0 auto; /* Center the container */
+        text-align: center; /* Center text for elements inside the container */
+      }
+      .logo {
+        max-width: 200px; /* Set a maximum width for the logo */
+        margin-bottom: 20px; /* Space below the logo */
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+        text-align: left; /* Align label text to the left */
+      }
+      input[type="text"],
+      select {
+        width: 100%; /* Ensure the width is 100% */
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        box-sizing: border-box; /* Include padding and border in the width */
+      }
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1em; /* Increase font size */
+        transition: background-color 0.3s; /* Smooth transition */
+        margin-top: 15px; /* Space above the button */
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 1.3em;
+        color: #333; /* Set text color */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        src="https://lh4.googleusercontent.com/cFGqdbQ9qmbqTV9xVRcLcVlLjAHU0UIxA6mSIqSfjWneEFnXVTU6GypahVFX2Yo6ExNxISDF_uFbydqFQVUn5b-2i4PQR9LNnrxt9T0FRBFMw7Gg5TQ1GNfaMfhQIgVyzMT8Uzwz"
+        alt="Logo"
+        class="logo"
+      />
+      <h1>Predict Sales</h1>
+      <form id="prediction-form" action="/predict" method="post">
+        <label for="model_type">Choose a model:</label>
+        <select id="model_type" name="model_type">
+          <option value="linear">Linear Regression</option>
+          <option value="ridge">Ridge Regression</option>
+          <option value="mlp">MLP Regressor</option>
+          <option value="stacking">Stacking</option>
+        </select>
+        <label for="feature1">TV Ad Budget:</label>
+        <input type="text" id="feature1" name="feature1" required />
+        <label for="feature2">Radio Ad Budget:</label>
+        <input type="text" id="feature2" name="feature2" required />
+        <label for="feature3">Newspaper Ad Budget:</label>
         <input type="text" id="feature3" name="feature3" required />
         <input type="submit" value="Predict" />
       </form>
